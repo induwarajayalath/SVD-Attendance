@@ -1,11 +1,10 @@
 ## Welcome
-The official Distance Learning Portal of D.S.Senanayake College Colombo 07 by 'GenixLabs'
+The temporary attendance marking application of Siri Vajiragnana Daham pasala.
 
 Developers 
 -Induwara Jayalath, 
--Tharinda Piyadasa, 
--Nishan Wijethunga
-(Three Old boys at D.S. Senanayake College and undergrates of University of colombo school of computing)
+
+(Undergraduate of University of colombo school of computing)
 
 
 ## Getting Started
