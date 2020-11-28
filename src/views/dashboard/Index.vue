@@ -173,20 +173,20 @@ export default {
         timeStamp: dateVar,
       }
       console.log(data)
-      // db.collection('attendance')
-      //   .add(data)
-      //   .then(() => {
-      //     console.log('Done')
-      //     this.showError = false
-      //     this.successMsg = this.barcode + ' added'
-      //     this.barcode = ''
-      //     this.successBool = true
-      //   })
-      //   .catch(function(error) {
-      //     this.showError = true
-      //     console.error('Error writing document: ', error)
-      //     this.errormm = 'ERROR OCCURED !!'
-      //   })
+      db.collection('attendance')
+        .add(data)
+        .then(() => {
+          console.log('Done')
+          this.showError = false
+          this.successMsg = this.barcode + ' added'
+          this.barcode = ''
+          this.successBool = true
+        })
+        .catch(function(error) {
+          this.showError = true
+          console.error('Error writing document: ', error)
+          this.errormm = 'ERROR OCCURED !!'
+        })
     },
   },
 }
