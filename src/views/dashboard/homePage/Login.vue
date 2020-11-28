@@ -66,48 +66,48 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-import db from "./api/firebaseInit";
-import firebase from "firebase";
-import Vue from "vue";
-import VueCookies from "vue-cookies";
-import VueParticles from "vue-particles";
-import VueSimpleAlert from "vue-simple-alert";
-Vue.use(VueSimpleAlert);
-Vue.use(VueParticles);
-Vue.use(VueCookies);
+import db from './api/firebaseInit'
+import firebase from 'firebase'
+import Vue from 'vue'
+import VueCookies from 'vue-cookies'
+import VueParticles from 'vue-particles'
+import VueSimpleAlert from 'vue-simple-alert'
+Vue.use(VueSimpleAlert)
+Vue.use(VueParticles)
+Vue.use(VueCookies)
 export default {
   data: () => ({
     loading: false,
-    barcode: "",
+    barcode: '',
     showError: false,
-    errormm: " ",
-    successMsg: "",
+    errormm: ' ',
+    successMsg: '',
     successBool: false,
   }),
   methods: {
-    enterBarcode: function (e) {
-      let dateVar = new Date();
+    enterBarcode: function(e) {
+      let dateVar = new Date()
       let data = {
         barcode: this.barcode,
         timestamp: dateVar,
         date:
           dateVar.getFullYear() +
-          "/" +
+          '/' +
           (dateVar.getMonth() + 1) +
-          "/" +
+          '/' +
           dateVar.getDate(),
-      };
-      console.log(data);
-      db.collection("attendance")
+      }
+      console.log(data)
+      db.collection('attendance')
         .add(data)
         .then(() => {
-          console.log("Done");
-          this.barcode = "";
-          this.addSubjectBool = false;
-        });
+          console.log('Done')
+          this.barcode = ''
+          this.addSubjectBool = false
+        })
     },
   },
-};
+}
 // login: function (e) {
 //   firebase
 //     .auth()

@@ -28,9 +28,9 @@ exports.getAttendance = functions.https.onRequest((request, response) => {
         console.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         let data = {
           userId: val.data()["barcode"],
-          userType: "STUDENTS",
-          category: "SUNDAY",
-          type: "IN",
+          userType: val.data()["userType"],
+          category: val.data()["category"],
+          type: val.data()["type"],
           timestamp: parseInt(val.data()["timeStamp"].toMillis() / 1000)
         };
         console.info(data);
