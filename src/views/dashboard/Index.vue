@@ -22,7 +22,7 @@
     </v-content>
     <v-container class="fill-height" fluid>
       <v-row align="center" justify="center">
-        <v-col cols="12" sm="8" md="4" lg="3">
+        <v-col cols="12" sm="12" md="8" lg="3">
           <v-alert v-model="showError" type="error">
             {{ this.errormm }}
           </v-alert>
@@ -133,7 +133,7 @@ export default {
     dayType: 'SUNDAY',
     inOutType: 'IN',
     outSelected: false,
-    inSelected: false,
+    inSelected: true,
   }),
   methods: {
     InSelected: function() {
