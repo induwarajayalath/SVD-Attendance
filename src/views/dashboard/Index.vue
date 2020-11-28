@@ -127,22 +127,22 @@ export default {
     successMsg: '',
     successBool: false,
     toggle_exclusive: undefined,
-    users: ['Teacher', 'Student'],
-    userType: 'Student',
-    times: ['Sunday', 'Poya', 'Thurunusavi'],
-    dayType: 'Sunday',
-    inOutType: '',
+    users: ['TEACHER', 'STUDENT'],
+    userType: 'STUDENT',
+    times: ['SUNDAY', 'POYA', 'THURUNUSAVI'],
+    dayType: 'SUNDAY',
+    inOutType: 'IN',
     outSelected: false,
     inSelected: false,
   }),
   methods: {
     InSelected: function() {
-      console.log('In')
+      // console.log('In')
       this.inOutType = 'IN'
       this.outSelected = false
     },
     OutSelected: function() {
-      console.log('Out')
+      // console.log('Out')
       this.inOutType = 'OUT'
       this.inSelected = false
     },
