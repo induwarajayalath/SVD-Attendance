@@ -23,7 +23,7 @@
     <v-container class="fill-height" fluid>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="12" md="8" lg="3">
-          <v-alert v-model="showError" type="error">
+          <v-alert dismissible v-model="showError" type="error">
             {{ this.errormm }}
           </v-alert>
           <v-card class="elevation-9 pa-3" color="#ffffff">
@@ -100,7 +100,17 @@
       color="success"
       outlined
       right
-      top
+      center
+    >
+      {{ this.successMsg }}
+    </v-snackbar>
+    <v-snackbar
+      v-model="errrBool"
+      :timeout="3500"
+      color="error"
+      outlined
+      right
+      center
     >
       {{ this.successMsg }}
     </v-snackbar>
@@ -109,87 +119,101 @@
 
 <script>
 /* eslint-disable no-unused-vars */
-import db from './homePage/api/firebaseInit'
-import firebase from 'firebase'
-import Vue from 'vue'
-import VueCookies from 'vue-cookies'
-import VueParticles from 'vue-particles'
-import VueSimpleAlert from 'vue-simple-alert'
-Vue.use(VueSimpleAlert)
-Vue.use(VueParticles)
-Vue.use(VueCookies)
+import db from "./homePage/api/firebaseInit";
+import firebase from "firebase";
+import Vue from "vue";
+import VueCookies from "vue-cookies";
+import VueParticles from "vue-particles";
+import VueSimpleAlert from "vue-simple-alert";
+Vue.use(VueSimpleAlert);
+Vue.use(VueParticles);
+Vue.use(VueCookies);
 export default {
   data: () => ({
     loading: false,
-    barcode: '',
+    barcode: "",
     showError: false,
-    errormm: ' ',
-    successMsg: '',
+    errormm: " ",
+    successMsg: "",
     successBool: false,
+    errrBool: false,
     toggle_exclusive: undefined,
-    users: ['TEACHER', 'STUDENT'],
-    userType: 'STUDENT',
-    times: ['SUNDAY', 'POYA', 'THURUNUSAVI'],
-    dayType: 'SUNDAY',
-    inOutType: 'IN',
+    users: ["TEACHER", "STUDENT"],
+    userType: "STUDENT",
+    times: ["SUNDAY", "POYADAY", "THURUNUSAVIYA"],
+    dayType: "SUNDAY",
+    inOutType: "IN",
     outSelected: false,
     inSelected: true,
   }),
   methods: {
-    InSelected: function() {
+    InSelected: function () {
       // console.log('In')
-      this.inOutType = 'IN'
-      this.outSelected = false
+      this.inOutType = "IN";
+      this.outSelected = false;
     },
-    OutSelected: function() {
+    OutSelected: function () {
       // console.log('Out')
-      this.inOutType = 'OUT'
-      this.inSelected = false
+      this.inOutType = "OUT";
+      this.inSelected = false;
     },
-    enterBarcode: function(e) {
-      this.showError = true
-      this.errormm = 'WAIT !!'
-      let dateVar = new Date()
-      let data = {
-        userType: this.userType,
-        category: this.dayType,
-        type: this.inOutType,
-        barcode: this.barcode,
-        time:
-          (dateVar.getHours() < 10 ? '0' : '') +
-          dateVar.getHours() +
-          ':' +
-          (dateVar.getMinutes() < 10 ? '0' : '') +
-          dateVar.getMinutes() +
-          ':' +
-          (dateVar.getSeconds() < 10 ? '0' : '') +
-          dateVar.getSeconds(),
-        date:
-          dateVar.getFullYear() +
-          '/' +
-          (dateVar.getMonth() + 1) +
-          '/' +
-          dateVar.getDate(),
-        timeStamp: dateVar,
+    enterBarcode: function (e) {
+      if (
+        isNaN(this.barcode) ||
+        (this.barcode.length != 3 && this.barcode.length != 6)
+      ) {
+        // alert("PLEASE Re-check the number");
+        this.showError = true;
+        this.errormm = "PLEASE Re-check the barcode";
+        // this.showError = false;
+        this.successMsg = "PLEASE Re-check the barcode";
+        this.barcode = "";
+        this.errrBool = true;
+      } else {
+        this.showError = true;
+        this.errormm = "WAIT !!";
+        let dateVar = new Date();
+        let data = {
+          userType: this.userType,
+          category: this.dayType,
+          type: this.inOutType,
+          barcode: this.barcode,
+          time:
+            (dateVar.getHours() < 10 ? "0" : "") +
+            dateVar.getHours() +
+            ":" +
+            (dateVar.getMinutes() < 10 ? "0" : "") +
+            dateVar.getMinutes() +
+            ":" +
+            (dateVar.getSeconds() < 10 ? "0" : "") +
+            dateVar.getSeconds(),
+          date:
+            dateVar.getFullYear() +
+            "/" +
+            (dateVar.getMonth() + 1) +
+            "/" +
+            dateVar.getDate(),
+          timeStamp: dateVar,
+        };
+        console.log(data);
+        db.collection("attendance")
+          .add(data)
+          .then(() => {
+            console.log("Done");
+            this.showError = false;
+            this.successMsg = this.barcode + " added";
+            this.barcode = "";
+            this.successBool = true;
+          })
+          .catch(function (error) {
+            this.showError = true;
+            console.error("Error writing document: ", error);
+            this.errormm = "ERROR OCCURED !!";
+          });
       }
-      console.log(data)
-      db.collection('attendance')
-        .add(data)
-        .then(() => {
-          console.log('Done')
-          this.showError = false
-          this.successMsg = this.barcode + ' added'
-          this.barcode = ''
-          this.successBool = true
-        })
-        .catch(function(error) {
-          this.showError = true
-          console.error('Error writing document: ', error)
-          this.errormm = 'ERROR OCCURED !!'
-        })
     },
   },
-}
+};
 </script>
 <style scoped lang="css">
 #login {

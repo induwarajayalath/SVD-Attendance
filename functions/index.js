@@ -20,12 +20,14 @@ exports.getAttendance = functions.https.onRequest((request, response) => {
   response.set("Access-Control-Max-Age", "3600");
   let reqDate = request.query.date;
   let dock = [];
+  console.info("------------------ Call recieved -------------------------- ");
+
   db.collection("attendance")
     .where("date", "==", reqDate)
     .get()
     .then(snapshot => {
       snapshot.docs.forEach(val => {
-        console.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        // console.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         let data = {
           userId: val.data()["barcode"],
           userType: val.data()["userType"],
@@ -33,10 +35,11 @@ exports.getAttendance = functions.https.onRequest((request, response) => {
           type: val.data()["type"],
           timestamp: parseInt(val.data()["timeStamp"].toMillis() / 1000)
         };
-        console.info(data);
+        // console.info(data);
         dock.push(data);
       });
       let responseToSend = { attendanceStagRecodes: dock };
+      console.info("----------------- Responded---------------");
       response.send(responseToSend);
     })
     .catch(errors => {
